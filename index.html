@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tenaris TAMSA — Tubería para la Industria Energética</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul:       #0047AB;
+      --azul-oscuro:#002F70;
+      --azul-claro: #E6EEF8;
+      --acero:      #B0B8C4;
+      --carbon:     #1C1F26;
+      --gris:       #6B7280;
+      --blanco:     #FFFFFF;
+      --fondo:      #F5F7FA;
+      --borde:      #DDE2EA;
+    }
+
+    html { scroll-behavior: smooth; }
+    body  { font-family: 'Barlow', sans-serif; background: var(--blanco); color: var(--carbon); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--azul-oscuro);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 64px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px; text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px; background: var(--blanco);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg { width: 28px; height: 28px; }
+    .nav-logo span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 700; color: var(--blanco); letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 0; }
+    .nav-link {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.5px;
+      padding: 0 20px; height: 64px; display: flex; align-items: center;
+      border-bottom: 3px solid transparent; transition: all 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--blanco); border-bottom-color: #4A9EFF; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 60%, #1565C0 100%);
+      min-height: 520px; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .hero-inner {
+      position: relative; max-width: 1100px; margin: 0 auto;
+      padding: 80px 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 600; letter-spacing: 3px;
+      color: #4A9EFF; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 56px; font-weight: 800; line-height: 1.05;
+      color: var(--blanco); margin-bottom: 20px;
+    }
+    .hero-title span { color: #4A9EFF; }
+    .hero-desc {
+      font-size: 17px; font-weight: 300; line-height: 1.7;
+      color: rgba(255,255,255,0.82); margin-bottom: 32px;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blanco); color: var(--azul-oscuro);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px; font-weight: 700; letter-spacing: 1px;
+      padding: 14px 28px; border-radius: 4px; cursor: pointer;
+      text-decoration: none; border: none; transition: background 0.2s;
+    }
+    .hero-cta:hover { background: #4A9EFF; color: var(--blanco); }
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; padding: 24px 20px;
+    }
+    .stat-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 42px; font-weight: 800; color: var(--blanco); line-height: 1;
+    }
+    .stat-unit { font-size: 20px; color: #4A9EFF; }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 80px 3rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-alt { background: var(--fondo); }
+    .section-dark { background: var(--carbon); color: var(--blanco); }
+
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: 3px;
+      color: var(--azul); text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-dark .section-eyebrow { color: #4A9EFF; }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px; font-weight: 800; color: var(--azul-oscuro); margin-bottom: 16px;
+    }
+    .section-dark .section-title { color: var(--blanco); }
+    .section-sub { font-size: 17px; color: var(--gris); max-width: 640px; line-height: 1.7; }
+    .section-dark .section-sub { color: rgba(255,255,255,0.65); }
+
+    /* ── SERVICIOS CARDS ── */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .service-card {
+      background: var(--blanco); border: 1px solid var(--borde);
+      border-radius: 8px; padding: 32px 28px; position: relative;
+      border-top: 3px solid var(--azul);
+    }
+    .service-icon {
+      width: 48px; height: 48px; background: var(--azul-claro);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .service-icon svg { width: 26px; height: 26px; stroke: var(--azul); fill: none; stroke-width: 1.8; }
+    .service-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 10px;
+    }
+    .service-desc { font-size: 14px; color: var(--gris); line-height: 1.7; }
+
+    /* ── NOSOTROS ── */
+    .nosotros-hero {
+      background: var(--azul-oscuro); padding: 80px 3rem;
+      position: relative; overflow: hidden;
+    }
+    .nosotros-hero-inner { max-width: 1100px; margin: 0 auto; }
+    .nosotros-hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px; font-weight: 800; color: var(--blanco);
+    }
+    .nosotros-hero-title span { color: #4A9EFF; }
+    .nosotros-hero-desc {
+      font-size: 18px; color: rgba(255,255,255,0.75); max-width: 640px;
+      margin-top: 16px; line-height: 1.7;
+    }
+    .valores-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
+    .valor-card {
+      background: var(--blanco); border: 1px solid var(--borde);
+      border-radius: 8px; padding: 28px;
+    }
+    .valor-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 48px; font-weight: 800; color: var(--azul-claro); line-height: 1;
+    }
+    .valor-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px; font-weight: 700; color: var(--azul-oscuro); margin: 8px 0 10px;
+    }
+    .valor-desc { font-size: 14px; color: var(--gris); line-height: 1.7; }
+    .mision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-top: 48px; }
+    .mision-block { }
+    .mision-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 2px;
+      color: var(--azul); text-transform: uppercase; margin-bottom: 12px;
+    }
+    .mision-text {
+      font-size: 16px; line-height: 1.8; color: var(--carbon);
+      border-left: 3px solid var(--azul); padding-left: 20px;
+    }
+
+    /* ── PRODUCTOS HERO ── */
+    .productos-hero {
+      background: var(--carbon); padding: 72px 3rem;
+    }
+    .productos-hero-inner { max-width: 1100px; margin: 0 auto; }
+    .productos-hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px; font-weight: 800; color: var(--blanco);
+    }
+    .productos-hero-title span { color: #4A9EFF; }
+    .productos-hero-desc {
+      font-size: 17px; color: rgba(255,255,255,0.65); margin-top: 12px; max-width: 620px;
+    }
+
+    /* ── CARRUSEL ── */
+    .carousel-section { padding: 64px 3rem; }
+    .carousel-inner { max-width: 1100px; margin: 0 auto; }
+    .carousel-wrapper { position: relative; margin-top: 40px; }
+    .carousel-track-wrap { overflow: hidden; border-radius: 8px; }
+    .carousel-track {
+      display: flex; transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .carousel-slide {
+      min-width: 100%; padding: 0 4px;
+    }
+    .product-card {
+      background: var(--blanco); border: 1px solid var(--borde);
+      border-radius: 8px; overflow: hidden; display: grid;
+      grid-template-columns: 340px 1fr;
+    }
+    .product-visual {
+      background: var(--azul-oscuro);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 32px; gap: 20px; position: relative; overflow: hidden;
+    }
+    .product-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px,
+        transparent 1px, transparent 10px
+      );
+    }
+    .product-name-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 800; color: var(--blanco);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .product-name-badge sup { font-size: 14px; color: #4A9EFF; }
+    .product-tipo-badge {
+      background: rgba(74,158,255,0.18); border: 1px solid rgba(74,158,255,0.4);
+      color: #4A9EFF; font-size: 12px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
+      position: relative; z-index: 1;
+    }
+    .product-tube-svg { position: relative; z-index: 1; }
+
+    .product-info { padding: 36px 40px; }
+    .product-info-header { margin-bottom: 28px; border-bottom: 1px solid var(--borde); padding-bottom: 20px; }
+    .product-full-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 26px; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 6px;
+    }
+    .product-grado {
+      font-size: 14px; color: var(--gris);
+    }
+    .product-grado strong { color: var(--azul); }
+
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .spec-group { margin-bottom: 24px; }
+    .spec-group-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      color: var(--acero); text-transform: uppercase; margin-bottom: 12px;
+    }
+    .spec-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 6px 0; border-bottom: 1px solid var(--fondo);
+      font-size: 13px;
+    }
+    .spec-label { color: var(--gris); }
+    .spec-value { font-weight: 600; color: var(--carbon); }
+    .spec-value.highlight { color: var(--azul); }
+
+    .torque-row {
+      display: flex; gap: 12px; margin-top: 12px;
+    }
+    .torque-chip {
+      flex: 1; background: var(--fondo); border-radius: 6px;
+      padding: 10px; text-align: center;
+    }
+    .torque-chip-label { font-size: 11px; color: var(--gris); margin-bottom: 4px; }
+    .torque-chip-value { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--azul-oscuro); }
+    .torque-chip.opt .torque-chip-value { color: var(--azul); }
+
+    /* ── CAROUSEL CONTROLS ── */
+    .carousel-controls {
+      display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px;
+    }
+    .carousel-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blanco); border: 1px solid var(--borde);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; color: var(--azul-oscuro);
+    }
+    .carousel-btn:hover { background: var(--azul); border-color: var(--azul); color: var(--blanco); }
+    .carousel-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .carousel-dots { display: flex; gap: 8px; align-items: center; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--borde); cursor: pointer; transition: all 0.2s;
+    }
+    .dot.active { background: var(--azul); width: 24px; border-radius: 4px; }
+    .carousel-counter {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; color: var(--gris); min-width: 50px; text-align: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--azul-oscuro); padding: 48px 3rem 24px;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px; font-weight: 800; color: var(--blanco); margin-bottom: 12px;
+    }
+    .footer-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .footer-col-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: 2px;
+      color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 16px;
+    }
+    .footer-link {
+      display: block; font-size: 13px; color: rgba(255,255,255,0.65);
+      text-decoration: none; margin-bottom: 8px; transition: color 0.2s;
+    }
+    .footer-link:hover { color: #4A9EFF; }
+    .footer-bottom {
+      padding-top: 20px; display: flex; justify-content: space-between;
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+
+    /* ── HISTORIA TIMELINE ── */
+    .timeline { margin-top: 48px; position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+      width: 2px; background: var(--borde);
+    }
+    .timeline-item { position: relative; margin-bottom: 36px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -28px; top: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--azul); border: 2px solid var(--blanco);
+      box-shadow: 0 0 0 2px var(--azul);
+    }
+    .timeline-year {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700; color: var(--azul); margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 6px;
+    }
+    .timeline-desc { font-size: 14px; color: var(--gris); line-height: 1.6; }
+
+    /* separador */
+    .divider { height: 1px; background: var(--borde); margin: 0 3rem; max-width: 1100px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home')">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="10" width="24" height="8" rx="4" fill="#0047AB"/>
+        <rect x="6" y="6" width="16" height="16" rx="2" fill="none" stroke="#0047AB" stroke-width="2"/>
+        <circle cx="14" cy="14" r="3" fill="#0047AB"/>
+      </svg>
+    </div>
+    <span>TENARIS TAMSA</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" id="nav-home" href="#" onclick="showPage('home')">Inicio</a>
+    <a class="nav-link" id="nav-nosotros" href="#" onclick="showPage('nosotros')">Nosotros</a>
+    <a class="nav-link" id="nav-productos" href="#" onclick="showPage('productos')">Productos</a>
+  </div>
+</nav>
+
+<!-- ════════════════════ PÁGINA: HOME ════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Líder mundial en tubería de acero</div>
+        <h1 class="hero-title">Tubería de<br/>precisión para la<br/><span>industria energética</span></h1>
+        <p class="hero-desc">Tenaris TAMSA es el mayor productor de tubos de acero sin costura de América Latina, con más de 70 años de experiencia en soluciones para la industria del petróleo y gas.</p>
+        <a class="hero-cta" href="#" onclick="showPage('productos')">
+          Ver catálogo de productos
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number">70<span class="stat-unit">+</span></div>
+          <div class="stat-label">Años de experiencia en el sector energético</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">30<span class="stat-unit">+</span></div>
+          <div class="stat-label">Países donde operamos con presencia directa</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24</span></div>
+          <div class="stat-label">Plantas industriales alrededor del mundo</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">22K<span class="stat-unit">+</span></div>
+          <div class="stat-label">Colaboradores a nivel global</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="section">
+    <div class="section-inner">
+      <div class="section-eyebrow">Nuestras soluciones</div>
+      <h2 class="section-title">Tecnología al servicio de la energía</h2>
+      <p class="section-sub">Diseñamos y fabricamos tubería OCTG (Oil Country Tubular Goods) con los más altos estándares de calidad para aplicaciones exigentes en ambientes corrosivos y de alta presión.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <div class="service-title">Tubería OCTG</div>
+          <p class="service-desc">Casing y tubing premium para perforación, completamiento y producción de pozos de petróleo y gas en condiciones extremas.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="service-title">Conexiones Premium</div>
+          <p class="service-desc">Tecnología TenarisHydril con conexiones 3SB, Blue® y CS® para hermeticidad y resistencia superiores bajo cualquier carga.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="service-title">Soporte Técnico</div>
+          <p class="service-desc">Ingeniería de aplicaciones, cálculo de envolventes de servicio y soporte en campo con expertos especializados en cada proyecto.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="service-title">Rig Direct®</div>
+          <p class="service-desc">Sistema integral de gestión de tubería en sitio: inventario en tiempo real, trazabilidad y rotación optimizada en el taladro.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          </div>
+          <div class="service-title">Alcance Global</div>
+          <p class="service-desc">Red de distribución y plantas en América, Europa, Medio Oriente y Asia-Pacífico para tiempos de entrega competitivos.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="service-title">Aleaciones Especiales</div>
+          <p class="service-desc">Materiales en Alloy 28, Superduplex 25Cr y otras aleaciones de alta resistencia a la corrosión para ambientes agresivos de H₂S y CO₂.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DARK BAND -->
+  <div class="section section-dark">
+    <div class="section-inner">
+      <div class="section-eyebrow">¿Por qué Tenaris?</div>
+      <h2 class="section-title">Conexiones que no fallan cuando más importa</h2>
+      <p class="section-sub">Nuestras conexiones premium como 3SB™ y Blue® están certificadas bajo las normas API 5CT, ISO y cuentan con eficiencias de tracción del 100%. Cada ficha técnica está respaldada por décadas de ingeniería y pruebas de desempeño.</p>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+
+<!-- ════════════════════ PÁGINA: NOSOTROS ════════════════════ -->
+<div class="page" id="page-nosotros">
+
+  <div class="nosotros-hero">
+    <div class="nosotros-hero-inner">
+      <div class="section-eyebrow" style="color:#4A9EFF;">Quiénes somos</div>
+      <h1 class="nosotros-hero-title">Acero <span>mexicano</span>,<br/>alcance mundial</h1>
+      <p class="nosotros-hero-desc">Tenaris TAMSA (Tubos de Acero de México, S.A.) es la planta más grande de tubería de acero sin costura en América Latina, ubicada en Veracruz, México. Desde 1952 fabricamos soluciones para la industria energética global.</p>
+    </div>
+  </div>
+
+  <!-- MISIÓN Y VISIÓN -->
+  <div class="section">
+    <div class="section-inner">
+      <div class="section-eyebrow">Nuestra razón de ser</div>
+      <h2 class="section-title">Misión y Visión</h2>
+      <div class="mision-grid">
+        <div>
+          <div class="mision-label">Misión</div>
+          <p class="mision-text">Proveer a la industria energética mundial tubería de acero sin costura y servicios de alto valor que permitan a nuestros clientes operar con mayor eficiencia, seguridad y sustentabilidad en cualquier entorno de perforación.</p>
+        </div>
+        <div>
+          <div class="mision-label">Visión</div>
+          <p class="mision-text">Ser el socio tecnológico preferido de las compañías de petróleo y gas del mundo, reconocidos por la innovación en materiales, la excelencia operativa y nuestro compromiso con el desarrollo sostenible.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VALORES -->
+  <div class="section section-alt">
+    <div class="section-inner">
+      <div class="section-eyebrow">Nuestros pilares</div>
+      <h2 class="section-title">Valores que nos definen</h2>
+      <div class="valores-grid">
+        <div class="valor-card">
+          <div class="valor-num">01</div>
+          <div class="valor-title">Seguridad ante todo</div>
+          <p class="valor-desc">Ningún objetivo de producción o entrega justifica comprometer la seguridad de nuestros colaboradores, clientes o comunidades. La cultura de cero accidentes es no negociable.</p>
+        </div>
+        <div class="valor-card">
+          <div class="valor-num">02</div>
+          <div class="valor-title">Innovación continua</div>
+          <p class="valor-desc">Invertimos más del 1% de nuestras ventas en investigación y desarrollo para anticipar las necesidades técnicas de la industria y desarrollar conexiones y aleaciones de vanguardia.</p>
+        </div>
+        <div class="valor-card">
+          <div class="valor-num">03</div>
+          <div class="valor-title">Excelencia operativa</div>
+          <p class="valor-desc">Cada tubo que sale de TAMSA cumple los más estrictos controles de calidad: desde la inspección de materia prima hasta la certificación dimensional y de propiedades mecánicas del producto terminado.</p>
+        </div>
+        <div class="valor-card">
+          <div class="valor-num">04</div>
+          <div class="valor-title">Compromiso con México</div>
+          <p class="valor-desc">Más de 10,000 empleos directos e indirectos en Veracruz. Programas de desarrollo comunitario, educación y cuidado del medio ambiente en la región donde operamos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIA -->
+  <div class="section">
+    <div class="section-inner">
+      <div class="section-eyebrow">Historia</div>
+      <h2 class="section-title">Más de 70 años de acero</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">1952</div>
+          <div class="timeline-title">Fundación de TAMSA</div>
+          <p class="timeline-desc">Inaugura operaciones en Veracruz la primera planta de tubos sin costura de México, con capacidad inicial para atender a Pemex en sus operaciones de la Faja de Oro.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1993</div>
+          <div class="timeline-title">Integración al grupo Tenaris</div>
+          <p class="timeline-desc">TAMSA se integra a la red global de Tenaris (grupo Techint), expandiendo su acceso a tecnología de punta y mercados internacionales.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2004</div>
+          <div class="timeline-title">Conexiones TenarisHydril</div>
+          <p class="timeline-desc">Adquisición de Hydril Company permite ofrecer conexiones premium de clase mundial directamente integradas con la manufactura de Veracruz.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2015</div>
+          <div class="timeline-title">Tecnología Dopeless®</div>
+          <p class="timeline-desc">Lanzamiento de conexiones sin dope en campo, reduciendo costos operativos y el impacto ambiental en todas las operaciones de completamiento.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">Liderazgo en aleaciones especiales</div>
+          <p class="timeline-desc">Portafolio ampliado con tubería en Alloy 28 y Superduplex 25Cr fabricada por Sandvik para ambientes de corrosión severa en aguas profundas y pozos ácidos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-nosotros -->
+
+
+<!-- ════════════════════ PÁGINA: PRODUCTOS ════════════════════ -->
+<div class="page" id="page-productos">
+
+  <div class="productos-hero">
+    <div class="productos-hero-inner">
+      <div class="section-eyebrow" style="color:#4A9EFF; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;">Catálogo técnico 2026</div>
+      <h1 class="productos-hero-title">Nuestros <span>productos</span></h1>
+      <p class="productos-hero-desc">Conexiones premium TenarisHydril certificadas bajo API 5CT para casing y tubing en los entornos más exigentes del mundo.</p>
+    </div>
+  </div>
+
+  <!-- CARRUSEL -->
+  <div class="carousel-section">
+    <div class="carousel-inner">
+      <div class="section-eyebrow">Fichas técnicas</div>
+      <h2 class="section-title">Selección de productos</h2>
+
+      <div class="carousel-wrapper">
+        <div class="carousel-track-wrap">
+          <div class="carousel-track" id="carouselTrack">
+
+            <!-- SLIDE 1: 3SB Casing Alloy 28 110 ksi -->
+            <div class="carousel-slide">
+              <div class="product-card">
+                <div class="product-visual">
+                  <div class="product-name-badge">TenarisHydril 3SB<sup>™</sup></div>
+                  <div class="product-tipo-badge">Casing</div>
+                  <svg class="product-tube-svg" width="180" height="90" viewBox="0 0 180 90">
+                    <defs>
+                      <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#4A9EFF" stop-opacity="0.6"/>
+                        <stop offset="50%" stop-color="#4A9EFF" stop-opacity="1"/>
+                        <stop offset="100%" stop-color="#002F70" stop-opacity="0.8"/>
+                      </linearGradient>
+                    </defs>
+                    <rect x="10" y="30" width="160" height="30" rx="15" fill="url(#g1)"/>
+                    <rect x="10" y="36" width="160" height="18" rx="9" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                    <rect x="15" y="38" width="150" height="14" rx="7" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <line x1="90" y1="30" x2="90" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                  </svg>
+                  <div style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center; position:relative; z-index:1;">
+                    Ø 114.30 mm · 6.35 mm esp.
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-info-header">
+                    <div class="product-full-name">3SB™ Casing — Alloy 28 (N08028)</div>
+                    <div class="product-grado">Grado: <strong>Alloy 28 (N08028) — 110 ksi</strong> &nbsp;|&nbsp; Fabricante: Sandvik</div>
+                  </div>
+                  <div class="specs-grid">
+                    <div class="spec-group">
+                      <div class="spec-group-title">Geometría del tubo</div>
+                      <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value highlight">114.30 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">6.35 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">101.60 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">17.26 kg/m</span></div>
+                      <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">98.43 mm</span></div>
+                    </div>
+                    <div class="spec-group">
+                      <div class="spec-group-title">Desempeño</div>
+                      <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value highlight">1,630 kN</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">75,800 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">52,300 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value highlight">100 %</span></div>
+                      <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">71.71 °/100 ft</span></div>
+                    </div>
+                  </div>
+                  <div class="spec-group">
+                    <div class="spec-group-title">Torques de apriete en campo</div>
+                    <div class="torque-row">
+                      <div class="torque-chip">
+                        <div class="torque-chip-label">Mínimo</div>
+                        <div class="torque-chip-value">4,800 N·m</div>
+                      </div>
+                      <div class="torque-chip opt">
+                        <div class="torque-chip-label">Óptimo</div>
+                        <div class="torque-chip-value">5,300 N·m</div>
+                      </div>
+                      <div class="torque-chip">
+                        <div class="torque-chip-label">Máximo</div>
+                        <div class="torque-chip-value">5,800 N·m</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: 3SB Tubing Alloy 28 125 ksi -->
+            <div class="carousel-slide">
+              <div class="product-card">
+                <div class="product-visual" style="background: #0D3B6E;">
+                  <div class="product-name-badge">TenarisHydril 3SB<sup>™</sup></div>
+                  <div class="product-tipo-badge">Tubing</div>
+                  <svg class="product-tube-svg" width="180" height="90" viewBox="0 0 180 90">
+                    <rect x="30" y="30" width="120" height="30" rx="15" fill="url(#g1)"/>
+                    <rect x="30" y="36" width="120" height="18" rx="9" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                    <line x1="90" y1="30" x2="90" y2="60" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                  </svg>
+                  <div style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center; position:relative; z-index:1;">
+                    Ø 73.03 mm · 7.01 mm esp.
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-info-header">
+                    <div class="product-full-name">3SB™ Tubing — Alloy 28 (N08028)</div>
+                    <div class="product-grado">Grado: <strong>Alloy 28 (N08028) — 125 ksi</strong> &nbsp;|&nbsp; Fabricante: Sandvik</div>
+                  </div>
+                  <div class="specs-grid">
+                    <div class="spec-group">
+                      <div class="spec-group-title">Geometría del tubo</div>
+                      <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value highlight">73.03 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">7.01 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">59.00 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">11.76 kg/m</span></div>
+                      <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">56.62 mm</span></div>
+                    </div>
+                    <div class="spec-group">
+                      <div class="spec-group-title">Desempeño</div>
+                      <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value highlight">1,250 kN</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">148,900 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">149,600 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value highlight">100 %</span></div>
+                      <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">127.55 °/100 ft</span></div>
+                    </div>
+                  </div>
+                  <div class="spec-group">
+                    <div class="spec-group-title">Torques de apriete en campo</div>
+                    <div class="torque-row">
+                      <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">2,700 N·m</div></div>
+                      <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">3,400 N·m</div></div>
+                      <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">4,100 N·m</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: Blue LW Casing C90 -->
+            <div class="carousel-slide">
+              <div class="product-card">
+                <div class="product-visual" style="background: #1A1040;">
+                  <div class="product-name-badge">Blue<sup>®</sup> /LW</div>
+                  <div class="product-tipo-badge">Casing</div>
+                  <svg class="product-tube-svg" width="180" height="90" viewBox="0 0 180 90">
+                    <rect x="5" y="25" width="170" height="40" rx="20" fill="url(#g1)"/>
+                    <rect x="5" y="31" width="170" height="28" rx="14" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                    <line x1="90" y1="25" x2="90" y2="65" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                  </svg>
+                  <div style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center; position:relative; z-index:1;">
+                    Ø 219.08 mm · 8.94 mm esp.
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-info-header">
+                    <div class="product-full-name">Blue® /LW — Casing</div>
+                    <div class="product-grado">Grado: <strong>C90</strong> &nbsp;|&nbsp; Banda: Morada</div>
+                  </div>
+                  <div class="specs-grid">
+                    <div class="spec-group">
+                      <div class="spec-group-title">Geometría del tubo</div>
+                      <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value highlight">219.08 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">8.94 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">201.19 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">47.62 kg/m</span></div>
+                      <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">198.02 mm</span></div>
+                    </div>
+                    <div class="spec-group">
+                      <div class="spec-group-title">Desempeño</div>
+                      <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value highlight">3,660 kN</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">44,300 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">22,100 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value highlight">100 %</span></div>
+                      <div class="spec-row"><span class="spec-label">Torque de fluencia</span><span class="spec-value">46,600 N·m</span></div>
+                    </div>
+                  </div>
+                  <div class="spec-group">
+                    <div class="spec-group-title">Torques de apriete en campo</div>
+                    <div class="torque-row">
+                      <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">14,900 N·m</div></div>
+                      <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">16,500 N·m</div></div>
+                      <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">18,200 N·m</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 4: Blue Near Flush Superduplex -->
+            <div class="carousel-slide">
+              <div class="product-card">
+                <div class="product-visual" style="background: #0B2545;">
+                  <div class="product-name-badge">Blue<sup>®</sup> Near Flush</div>
+                  <div class="product-tipo-badge">Casing</div>
+                  <svg class="product-tube-svg" width="180" height="90" viewBox="0 0 180 90">
+                    <rect x="8" y="27" width="164" height="36" rx="18" fill="url(#g1)"/>
+                    <rect x="8" y="33" width="164" height="24" rx="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                    <line x1="90" y1="27" x2="90" y2="63" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                  </svg>
+                  <div style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center; position:relative; z-index:1;">
+                    Ø 177.80 mm · 11.51 mm esp.
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-info-header">
+                    <div class="product-full-name">Blue® Near Flush — Superduplex 25Cr</div>
+                    <div class="product-grado">Grado: <strong>Superduplex 25Cr (S32750) — 80 ksi</strong> &nbsp;|&nbsp; Fabricante: Sandvik</div>
+                  </div>
+                  <div class="specs-grid">
+                    <div class="spec-group">
+                      <div class="spec-group-title">Geometría del tubo</div>
+                      <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value highlight">177.80 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">11.51 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">154.79 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">47.62 kg/m</span></div>
+                      <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">151.61 mm</span></div>
+                    </div>
+                    <div class="spec-group">
+                      <div class="spec-group-title">Desempeño</div>
+                      <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value highlight">3,310 kN</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">64,300 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">59,300 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value highlight">72 %</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en compresión</span><span class="spec-value">50 %</span></div>
+                    </div>
+                  </div>
+                  <div class="spec-group" style="margin-top:12px;">
+                    <div style="font-size:13px; color:var(--gris); background:var(--fondo); padding:10px 14px; border-radius:6px; border-left:3px solid var(--azul);">
+                      Near Flush: OD conexión 182.70 mm (solo +4.9 mm sobre tubo). Ideal para espacios anulares reducidos.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 5: CS Casing Q125-IC -->
+            <div class="carousel-slide">
+              <div class="product-card">
+                <div class="product-visual" style="background: #0F2A4A;">
+                  <div class="product-name-badge">CS<sup>®</sup></div>
+                  <div class="product-tipo-badge">Casing</div>
+                  <svg class="product-tube-svg" width="180" height="90" viewBox="0 0 180 90">
+                    <rect x="8" y="28" width="164" height="34" rx="17" fill="url(#g1)"/>
+                    <rect x="8" y="34" width="164" height="22" rx="11" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+                    <line x1="90" y1="28" x2="90" y2="62" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                  </svg>
+                  <div style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center; position:relative; z-index:1;">
+                    Ø 139.70 mm · 12.70 mm esp.
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-info-header">
+                    <div class="product-full-name">CS® — Casing Q125-IC</div>
+                    <div class="product-grado">Grado: <strong>Q125-IC</strong> &nbsp;|&nbsp; Bandas: Naranja + Verde claro</div>
+                  </div>
+                  <div class="specs-grid">
+                    <div class="spec-group">
+                      <div class="spec-group-title">Geometría del tubo</div>
+                      <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value highlight">139.70 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">12.70 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">114.30 mm</span></div>
+                      <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">39.88 kg/m</span></div>
+                      <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">111.13 mm</span></div>
+                    </div>
+                    <div class="spec-group">
+                      <div class="spec-group-title">Desempeño</div>
+                      <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value highlight">4,370 kN</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">137,100 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">151,000 kPa</span></div>
+                      <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value highlight">100 %</span></div>
+                      <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">83 °/100 ft</span></div>
+                    </div>
+                  </div>
+                  <div class="spec-group">
+                    <div class="spec-group-title">Torques de apriete en campo</div>
+                    <div class="torque-row">
+                      <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">25,100 N·m</div></div>
+                      <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">28,200 N·m</div></div>
+                      <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">31,300 N·m</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /track -->
+        </div><!-- /track-wrap -->
+
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="btnPrev" onclick="carouselPrev()">
+            <svg viewBox="0 0 18 18"><path d="M11 4L6 9l5 5"/></svg>
+          </button>
+          <div class="carousel-dots" id="carouselDots"></div>
+          <span class="carousel-counter" id="carouselCounter">1 / 5</span>
+          <button class="carousel-btn" id="btnNext" onclick="carouselNext()">
+            <svg viewBox="0 0 18 18"><path d="M7 4l5 5-5 5"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page-productos -->
+
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">TENARIS TAMSA</div>
+        <p class="footer-desc">Tubos de Acero de México, S.A.<br/>Proveedor líder de tubería OCTG y conexiones premium para la industria del petróleo y gas.<br/><br/>Veracruz, México · tenaris.com</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navegación</div>
+        <a class="footer-link" href="#" onclick="showPage('home')">Inicio</a>
+        <a class="footer-link" href="#" onclick="showPage('nosotros')">Nosotros</a>
+        <a class="footer-link" href="#" onclick="showPage('productos')">Productos</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Productos</div>
+        <a class="footer-link" href="#" onclick="showPage('productos')">3SB™ Casing</a>
+        <a class="footer-link" href="#" onclick="showPage('productos')">3SB™ Tubing</a>
+        <a class="footer-link" href="#" onclick="showPage('productos')">Blue® /LW</a>
+        <a class="footer-link" href="#" onclick="showPage('productos')">Blue® Near Flush</a>
+        <a class="footer-link" href="#" onclick="showPage('productos')">CS®</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Tenaris. Todos los derechos reservados.</span>
+      <span>Diseño académico — Basado en fichas técnicas oficiales TenarisHydril</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── PAGE SWITCHING ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+    return false;
+  }
+
+  // ── CAROUSEL ──
+  let current = 0;
+  const total = 5;
+  const track = document.getElementById('carouselTrack');
+  const dotsEl = document.getElementById('carouselDots');
+  const counter = document.getElementById('carouselCounter');
+
+  // create dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function carouselNext() { goTo(current + 1); }
+  function carouselPrev() { goTo(current - 1); }
+
+  // touch swipe
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (dx < -50) carouselNext();
+    else if (dx > 50) carouselPrev();
+  });
+</script>
+</body>
+</html>
