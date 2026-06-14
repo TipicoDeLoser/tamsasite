@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tenaris TAMSA — Productos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --t-gray: #6D6E71; --t-gray-dark: #3D3D3D;
+      --t-magenta: #C8007A; --t-blue-dark: #003087;
+      --t-green: #009A44; --t-blue-light: #0099D6;
+      --blanco: #FFFFFF; --fondo: #F4F5F6;
+      --borde: #E0E1E3; --texto: #2B2B2B; --texto-sub: #5A5A5A;
+    }
+    body { font-family: 'Barlow', sans-serif; background: var(--blanco); color: var(--texto); margin: 0; }
+
+    .tenaris-stripe {
+      height: 5px;
+      background: linear-gradient(to right,
+        var(--t-magenta) 0%, var(--t-magenta) 25%,
+        var(--t-blue-dark) 25%, var(--t-blue-dark) 50%,
+        var(--t-green) 50%, var(--t-green) 75%,
+        var(--t-blue-light) 75%, var(--t-blue-light) 100%);
+    }
+
+    /* HERO */
+    .prod-hero { background: var(--t-blue-dark); padding: 64px 3rem; }
+    .prod-hero-inner { max-width: 1100px; margin: 0 auto; }
+    .prod-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 3px; color: var(--t-green); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .accent-bar-green { width: 40px; height: 3px; margin-bottom: 20px; background: linear-gradient(to right, var(--t-green), var(--t-blue-light)); }
+    .prod-title { font-family: 'Barlow Condensed', sans-serif; font-size: 48px; font-weight: 800; color: var(--blanco); }
+    .prod-title span { color: var(--t-blue-light); }
+    .prod-desc { font-size: 16px; color: rgba(255,255,255,0.60); margin-top: 12px; max-width: 580px; }
+
+    /* CAROUSEL SECTION */
+    .carousel-section { padding: 56px 3rem; }
+    .carousel-inner { max-width: 1100px; margin: 0 auto; }
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; color: var(--t-blue-dark); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .accent-bar { width: 40px; height: 3px; margin-bottom: 20px; background: linear-gradient(to right, var(--t-magenta), var(--t-blue-light)); }
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; color: var(--t-gray-dark); margin-bottom: 28px; }
+
+    /* CAROUSEL */
+    .carousel-track-wrap { overflow: hidden; border-radius: 4px; border: 1px solid var(--borde); }
+    .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(.4,0,.2,1); }
+    .carousel-slide { min-width: 100%; }
+    .product-card { display: grid; grid-template-columns: 300px 1fr; }
+
+    .product-visual {
+      background: var(--t-blue-dark);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 36px 28px; gap: 16px; position: relative; overflow: hidden;
+    }
+    .product-visual::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(to right, var(--t-magenta), var(--t-blue-light));
+    }
+    .product-name { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; color: var(--blanco); text-align: center; line-height: 1.1; }
+    .product-name sup { font-size: 13px; color: var(--t-blue-light); }
+    .product-tipo {
+      background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85); font-size: 11px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 2px;
+    }
+    .product-dim { color: rgba(255,255,255,0.45); font-size: 12px; text-align: center; }
+
+    .product-info { padding: 32px 36px; background: var(--blanco); }
+    .product-header { margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--borde); }
+    .product-fullname { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: var(--t-gray-dark); margin-bottom: 5px; }
+    .product-grado { font-size: 13px; color: var(--texto-sub); }
+    .product-grado strong { color: var(--t-blue-dark); }
+
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+    .spec-group { margin-bottom: 20px; }
+    .spec-group-title {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; color: var(--t-gray); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .spec-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--fondo); font-size: 12px; }
+    .spec-label { color: var(--texto-sub); }
+    .spec-value { font-weight: 600; color: var(--texto); }
+    .spec-value.hi { color: var(--t-blue-dark); }
+
+    .torque-row { display: flex; gap: 10px; margin-top: 10px; }
+    .torque-chip { flex: 1; background: var(--fondo); border-radius: 3px; padding: 10px 8px; text-align: center; border-top: 2px solid var(--borde); }
+    .torque-chip.opt { border-top-color: var(--t-green); }
+    .torque-chip-label { font-size: 10px; color: var(--texto-sub); margin-bottom: 3px; }
+    .torque-chip-value { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: var(--t-gray-dark); }
+    .torque-chip.opt .torque-chip-value { color: var(--t-green); }
+    .note-box { font-size: 12px; color: var(--texto-sub); background: var(--fondo); border-left: 3px solid var(--t-blue-light); padding: 10px 14px; border-radius: 0 3px 3px 0; margin-top: 14px; line-height: 1.6; }
+
+    /* CONTROLS */
+    .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 24px; }
+    .carousel-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blanco); border: 1px solid var(--borde);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; color: var(--t-blue-dark);
+    }
+    .carousel-btn:hover { background: var(--t-blue-dark); border-color: var(--t-blue-dark); color: var(--blanco); }
+    .carousel-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .carousel-dots { display: flex; gap: 6px; align-items: center; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--borde); cursor: pointer; transition: all 0.2s; }
+    .dot.active { background: var(--t-blue-dark); width: 22px; border-radius: 3px; }
+    .carousel-counter { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; color: var(--texto-sub); min-width: 40px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="tenaris-stripe"></div>
+
+<div class="prod-hero">
+  <div class="prod-hero-inner">
+    <div class="prod-eyebrow">Catálogo técnico 2026</div>
+    <div class="accent-bar-green"></div>
+    <h1 class="prod-title">Nuestros <span>productos</span></h1>
+    <p class="prod-desc">Conexiones premium TenarisHydril certificadas bajo API 5CT para casing y tubing en los entornos más exigentes del mundo.</p>
+  </div>
+</div>
+
+<div class="carousel-section">
+  <div class="carousel-inner">
+    <div class="section-eyebrow">Fichas técnicas</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Selección de productos</h2>
+
+    <div class="carousel-track-wrap">
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- SLIDE 1: 3SB Casing -->
+        <div class="carousel-slide"><div class="product-card">
+          <div class="product-visual">
+            <div class="product-name">TenarisHydril 3SB<sup>™</sup></div>
+            <div class="product-tipo">Casing</div>
+            <svg width="200" height="80" viewBox="0 0 200 80">
+              <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0099D6" stop-opacity="0.7"/><stop offset="50%" stop-color="#0099D6"/><stop offset="100%" stop-color="#003087" stop-opacity="0.8"/></linearGradient></defs>
+              <rect x="8" y="28" width="184" height="24" rx="12" fill="url(#tg)"/>
+              <rect x="8" y="32" width="184" height="16" rx="8" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <rect x="0" y="26" width="12" height="28" rx="3" fill="#0099D6" opacity="0.6"/>
+              <rect x="188" y="26" width="12" height="28" rx="3" fill="#0099D6" opacity="0.6"/>
+            </svg>
+            <div class="product-dim">Ø 114.30 mm · esp. 6.35 mm</div>
+          </div>
+          <div class="product-info">
+            <div class="product-header">
+              <div class="product-fullname">3SB™ Casing — Alloy 28 (N08028)</div>
+              <div class="product-grado">Grado: <strong>Alloy 28 (N08028) — 110 ksi</strong> &nbsp;·&nbsp; Fabricante: Sandvik</div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-group">
+                <div class="spec-group-title">Geometría del tubo</div>
+                <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value hi">114.30 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">6.35 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">101.60 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">17.26 kg/m</span></div>
+                <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">98.43 mm</span></div>
+              </div>
+              <div class="spec-group">
+                <div class="spec-group-title">Desempeño</div>
+                <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value hi">1,630 kN</span></div>
+                <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">75,800 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">52,300 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value hi">100 %</span></div>
+                <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">71.71 °/100 ft</span></div>
+              </div>
+            </div>
+            <div class="spec-group"><div class="spec-group-title">Torques de apriete en campo</div>
+              <div class="torque-row">
+                <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">4,800 N·m</div></div>
+                <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">5,300 N·m</div></div>
+                <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">5,800 N·m</div></div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+
+        <!-- SLIDE 2: 3SB Tubing -->
+        <div class="carousel-slide"><div class="product-card">
+          <div class="product-visual">
+            <div class="product-name">TenarisHydril 3SB<sup>™</sup></div>
+            <div class="product-tipo">Tubing</div>
+            <svg width="200" height="80" viewBox="0 0 200 80">
+              <rect x="28" y="30" width="144" height="20" rx="10" fill="url(#tg)"/>
+              <rect x="28" y="34" width="144" height="12" rx="6" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <rect x="20" y="28" width="12" height="24" rx="3" fill="#0099D6" opacity="0.6"/>
+              <rect x="168" y="28" width="12" height="24" rx="3" fill="#0099D6" opacity="0.6"/>
+            </svg>
+            <div class="product-dim">Ø 73.03 mm · esp. 7.01 mm</div>
+          </div>
+          <div class="product-info">
+            <div class="product-header">
+              <div class="product-fullname">3SB™ Tubing — Alloy 28 (N08028)</div>
+              <div class="product-grado">Grado: <strong>Alloy 28 (N08028) — 125 ksi</strong> &nbsp;·&nbsp; Fabricante: Sandvik</div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-group">
+                <div class="spec-group-title">Geometría del tubo</div>
+                <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value hi">73.03 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">7.01 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">59.00 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">11.76 kg/m</span></div>
+                <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">56.62 mm</span></div>
+              </div>
+              <div class="spec-group">
+                <div class="spec-group-title">Desempeño</div>
+                <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value hi">1,250 kN</span></div>
+                <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">148,900 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">149,600 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value hi">100 %</span></div>
+                <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">127.55 °/100 ft</span></div>
+              </div>
+            </div>
+            <div class="spec-group"><div class="spec-group-title">Torques de apriete en campo</div>
+              <div class="torque-row">
+                <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">2,700 N·m</div></div>
+                <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">3,400 N·m</div></div>
+                <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">4,100 N·m</div></div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+
+        <!-- SLIDE 3: Blue LW -->
+        <div class="carousel-slide"><div class="product-card">
+          <div class="product-visual">
+            <div class="product-name">Blue<sup>®</sup> /LW</div>
+            <div class="product-tipo">Casing</div>
+            <svg width="200" height="80" viewBox="0 0 200 80">
+              <rect x="4" y="22" width="192" height="36" rx="18" fill="url(#tg)"/>
+              <rect x="4" y="28" width="192" height="24" rx="12" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+            </svg>
+            <div class="product-dim">Ø 219.08 mm · esp. 8.94 mm</div>
+          </div>
+          <div class="product-info">
+            <div class="product-header">
+              <div class="product-fullname">Blue® /LW — Casing</div>
+              <div class="product-grado">Grado: <strong>C90</strong> &nbsp;·&nbsp; Banda: Morada</div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-group">
+                <div class="spec-group-title">Geometría del tubo</div>
+                <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value hi">219.08 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">8.94 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">201.19 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">47.62 kg/m</span></div>
+                <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">198.02 mm</span></div>
+              </div>
+              <div class="spec-group">
+                <div class="spec-group-title">Desempeño</div>
+                <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value hi">3,660 kN</span></div>
+                <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">44,300 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">22,100 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value hi">100 %</span></div>
+                <div class="spec-row"><span class="spec-label">Torque de fluencia</span><span class="spec-value">46,600 N·m</span></div>
+              </div>
+            </div>
+            <div class="spec-group"><div class="spec-group-title">Torques de apriete en campo</div>
+              <div class="torque-row">
+                <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">14,900 N·m</div></div>
+                <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">16,500 N·m</div></div>
+                <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">18,200 N·m</div></div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+
+        <!-- SLIDE 4: Blue Near Flush -->
+        <div class="carousel-slide"><div class="product-card">
+          <div class="product-visual">
+            <div class="product-name">Blue<sup>®</sup> Near Flush</div>
+            <div class="product-tipo">Casing</div>
+            <svg width="200" height="80" viewBox="0 0 200 80">
+              <rect x="6" y="24" width="188" height="32" rx="16" fill="url(#tg)"/>
+              <rect x="6" y="30" width="188" height="20" rx="10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+            </svg>
+            <div class="product-dim">Ø 177.80 mm · esp. 11.51 mm</div>
+          </div>
+          <div class="product-info">
+            <div class="product-header">
+              <div class="product-fullname">Blue® Near Flush — Superduplex 25Cr</div>
+              <div class="product-grado">Grado: <strong>Superduplex 25Cr (S32750) — 80 ksi</strong> &nbsp;·&nbsp; Fabricante: Sandvik</div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-group">
+                <div class="spec-group-title">Geometría del tubo</div>
+                <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value hi">177.80 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">11.51 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">154.79 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">47.62 kg/m</span></div>
+                <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">151.61 mm</span></div>
+              </div>
+              <div class="spec-group">
+                <div class="spec-group-title">Desempeño</div>
+                <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value hi">3,310 kN</span></div>
+                <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">64,300 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">59,300 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value hi">72 %</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en compresión</span><span class="spec-value">50 %</span></div>
+              </div>
+            </div>
+            <div class="note-box">Near Flush: OD conexión 182.70 mm (solo +4.9 mm sobre tubo). Ideal para espacios anulares reducidos.</div>
+          </div>
+        </div></div>
+
+        <!-- SLIDE 5: CS -->
+        <div class="carousel-slide"><div class="product-card">
+          <div class="product-visual">
+            <div class="product-name">CS<sup>®</sup></div>
+            <div class="product-tipo">Casing</div>
+            <svg width="200" height="80" viewBox="0 0 200 80">
+              <rect x="6" y="24" width="188" height="32" rx="16" fill="url(#tg)"/>
+              <rect x="6" y="30" width="188" height="20" rx="10" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+              <rect x="0" y="22" width="10" height="36" rx="3" fill="#009A44" opacity="0.7"/>
+              <rect x="190" y="22" width="10" height="36" rx="3" fill="#009A44" opacity="0.7"/>
+            </svg>
+            <div class="product-dim">Ø 139.70 mm · esp. 12.70 mm</div>
+          </div>
+          <div class="product-info">
+            <div class="product-header">
+              <div class="product-fullname">CS® — Casing Q125-IC</div>
+              <div class="product-grado">Grado: <strong>Q125-IC</strong> &nbsp;·&nbsp; Bandas: Naranja + Verde claro</div>
+            </div>
+            <div class="specs-grid">
+              <div class="spec-group">
+                <div class="spec-group-title">Geometría del tubo</div>
+                <div class="spec-row"><span class="spec-label">Diámetro exterior</span><span class="spec-value hi">139.70 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Espesor</span><span class="spec-value">12.70 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Diámetro interior</span><span class="spec-value">114.30 mm</span></div>
+                <div class="spec-row"><span class="spec-label">Peso lineal</span><span class="spec-value">39.88 kg/m</span></div>
+                <div class="spec-row"><span class="spec-label">Calibre</span><span class="spec-value">111.13 mm</span></div>
+              </div>
+              <div class="spec-group">
+                <div class="spec-group-title">Desempeño</div>
+                <div class="spec-row"><span class="spec-label">Resist. tracción tubo</span><span class="spec-value hi">4,370 kN</span></div>
+                <div class="spec-row"><span class="spec-label">Presión interna</span><span class="spec-value">137,100 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Presión de colapso</span><span class="spec-value">151,000 kPa</span></div>
+                <div class="spec-row"><span class="spec-label">Efic. en tracción</span><span class="spec-value hi">100 %</span></div>
+                <div class="spec-row"><span class="spec-label">Máx. flexión</span><span class="spec-value">83 °/100 ft</span></div>
+              </div>
+            </div>
+            <div class="spec-group"><div class="spec-group-title">Torques de apriete en campo</div>
+              <div class="torque-row">
+                <div class="torque-chip"><div class="torque-chip-label">Mínimo</div><div class="torque-chip-value">25,100 N·m</div></div>
+                <div class="torque-chip opt"><div class="torque-chip-label">Óptimo</div><div class="torque-chip-value">28,200 N·m</div></div>
+                <div class="torque-chip"><div class="torque-chip-label">Máximo</div><div class="torque-chip-value">31,300 N·m</div></div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+
+      </div>
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-btn" onclick="carouselPrev()"><svg viewBox="0 0 16 16"><path d="M10 4L6 8l4 4"/></svg></button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <span class="carousel-counter" id="carouselCounter">1 / 5</span>
+      <button class="carousel-btn" onclick="carouselNext()"><svg viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let current = 0; const total = 5;
+  const track = document.getElementById('carouselTrack');
+  const dotsEl = document.getElementById('carouselDots');
+  const counter = document.getElementById('carouselCounter');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i); dotsEl.appendChild(d);
+  }
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = (current + 1) + ' / ' + total;
+  }
+  function carouselNext() { goTo(current + 1); }
+  function carouselPrev() { goTo(current - 1); }
+  track.addEventListener('touchstart', e => { window._sx = e.touches[0].clientX; });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - window._sx;
+    if (dx < -50) carouselNext(); else if (dx > 50) carouselPrev();
+  });
+</script>
+</body>
+</html>
